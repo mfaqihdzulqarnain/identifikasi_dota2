@@ -1,8 +1,6 @@
-import numpy as np
 import pandas as pd
-import tensorflow as tf
-from keras.models import Model, Sequential
-from keras.layers import Input, Activation, Dense
+from keras.models import Model
+from keras.layers import Input, Dense
 from keras.optimizers import SGD
 from keras.utils.np_utils import to_categorical
 
@@ -17,6 +15,7 @@ print(corr_matrix['type'])
 sf_train.drop(sf_train.columns[[5, 12, 14, 21, 22, 23]], axis=1, inplace=True)
 print(sf_train.head())
 
+#%%
 # Pandas read CSV
 sf_train = pd.read_csv('training_data.csv')
 
@@ -46,6 +45,7 @@ val_x = val_data[:,2:]
 train_y = to_categorical( train_data[:,1] )
 val_y = to_categorical( val_data[:,1] )
 
+#%%
 # Create Network
 inputs = Input(shape=(16,))
 h_layer = Dense(10, activation='sigmoid')(inputs)
