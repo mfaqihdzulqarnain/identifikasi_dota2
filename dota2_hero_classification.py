@@ -4,35 +4,24 @@ from keras.layers import Input, Dense
 from keras.optimizers import SGD
 from keras.utils.np_utils import to_categorical
 
-# Pandas read CSV
+# Membaca file CSV
 sf_train = pd.read_csv('training_data.csv')
 
-# Correlation Matrix for target
+# Correlation Matrix untuk target features
 corr_matrix = sf_train.corr()
 print(corr_matrix['type'])
 
-# Drop unnecessary columns
+# Menghapus kolom yang tidak dibutuhkan
 sf_train.drop(sf_train.columns[[5, 12, 14, 21, 22, 23]], axis=1, inplace=True)
 print(sf_train.head())
 
-# Pandas read CSV
-sf_train = pd.read_csv('training_data.csv')
-
-# Correlation Matrix for target
-corr_matrix = sf_train.corr()
-print(corr_matrix['type'])
-
-# Drop unnecessary columns
-sf_train.drop(sf_train.columns[[5, 12, 14, 21, 22, 23]], axis=1, inplace=True)
-print(sf_train.head())
-
-# Pandas read Validation CSV
+# Membaca file CSV data testing
 sf_val = pd.read_csv('testing_data.csv')
 
-# Drop unnecessary columns
+# Membuang kolom yang tidak dibutuhkan
 sf_val.drop(sf_val.columns[[5, 12, 14, 21, 22, 23]], axis=1, inplace=True)
 
-# Get Pandas array value (Convert to NumPy array)
+# Mendapatkan nilai array dari file CSV
 train_data = sf_train.values
 val_data = sf_val.values
 
