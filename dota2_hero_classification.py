@@ -25,37 +25,38 @@ sf_val.drop(sf_val.columns[[5, 12, 14, 21, 22, 23]], axis=1, inplace=True)
 train_data = sf_train.values
 val_data = sf_val.values
 
-# Use columns 2 to last as Input
+# Menggunakan data dari kolom 2 hingga akhir sebagai input
 train_x = train_data[:,2:]
 val_x = val_data[:,2:]
 
-# Use columns 1 as Output/Target (One-Hot Encoding)
+# Menggunakan data dari kolom 1 sebagai output yang akan di-convert one-hot vector
 train_y = to_categorical( train_data[:,1] )
 val_y = to_categorical( val_data[:,1] )
 
-# Create Network
+# Model Neural Network
 inputs = Input(shape=(16,))
 h_layer = Dense(10, activation='sigmoid')(inputs)
 
-# Softmax Activation for Multiclass Classification
+# Softmax Activation untuk Multiclass Classification
 outputs = Dense(3, activation='softmax')(h_layer)
 
 model = Model(inputs=inputs, outputs=outputs)
 
-# Optimizer / Update Rule
+# Optimizer 
 sgd = SGD(lr=0.001)
 
-# Compile the model with Cross Entropy Loss
+# Compile model dengan Cross Entropy Loss
 model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Train the model and use validation data
-model.fit(train_x, train_y, batch_size=16, epochs=5000, verbose=1, validation_data=(val_x, val_y))
-#model.save_weights('weights.h5')
+# Melatih model
+model.fit(train_x, train_y, batch_size=8, epochs=5000, verbose=1, validation_data=(val_x, val_y))
+# Menyimpan nilai bobot agar bisa digunakan kembali
+model.save_weights('weights.h5')
 
-# Predict all Validation data
+# Memprediksi semua data testing
 predict = model.predict(val_x)
 
-# Visualize Prediction
+# Menampilkan hasil prediksi
 df = pd.DataFrame(predict)
 df.columns = [ 'Strength', 'Agility', 'Intelligent' ]
 df.index = val_data[:,0]
